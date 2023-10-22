@@ -7,17 +7,19 @@ public class MovementScript : MonoBehaviour
 {
     Vector2 moveInput;
     Rigidbody2D myRigidbody;
-    CapsuleCollider2D myCollider;
+    CapsuleCollider2D myBodyCollider;
+    BoxCollider2D myFeetCollider;
     Animator myAnimator;
     [SerializeField] float runSpeed = 10f;
-    [SerializeField] float jumpSpeed = 10f;
+    [SerializeField] float jumpSpeed = 4f;
     [SerializeField] float climbSpeed = 5f;
-    [SerializeField] float gravityScaleAtStart = 3f;
+    [SerializeField] float gravityScaleAtStart = 5f;
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         myRigidbody.gravityScale = gravityScaleAtStart;
-        myCollider = GetComponent<CapsuleCollider2D>();
+        myBodyCollider = GetComponent<CapsuleCollider2D>();
+        myFeetCollider = GetComponent<BoxCollider2D>();
         myAnimator = GetComponent<Animator>();
     }
 
@@ -35,23 +37,25 @@ public class MovementScript : MonoBehaviour
 
     void ClimbLadder()
     {
-        if (myCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+        if (myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
         {
             Vector2 climbVelocity = new Vector2(myRigidbody.velocity.x, moveInput.y * climbSpeed);
             myRigidbody.velocity = climbVelocity;
             myRigidbody.gravityScale = 0;
+            bool playerHasVerticalSpeed = Mathf.Abs(myRigidbody.velocity.y) > Mathf.Epsilon;
+            myAnimator.SetBool("isClimbing", playerHasVerticalSpeed);
         }
         else
         {
             myRigidbody.gravityScale = gravityScaleAtStart;
+            myAnimator.SetBool("isClimbing", false);
         }
     }
 
     void OnJump(InputValue value)
     {
-        if (value.isPressed && myCollider.IsTouchingLayers(LayerMask.GetMask("Ground")))
+        if (value.isPressed && myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
-            Debug.Log("Grounding");
             myRigidbody.velocity += new Vector2(0f, jumpSpeed);
         }
     }
