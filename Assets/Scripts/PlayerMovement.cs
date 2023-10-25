@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class MovementScript : MonoBehaviour
 {
@@ -10,11 +11,15 @@ public class MovementScript : MonoBehaviour
     CapsuleCollider2D myBodyCollider;
     BoxCollider2D myFeetCollider;
     Animator myAnimator;
-    [SerializeField] float runSpeed = 10f;
-    [SerializeField] float jumpSpeed = 4f;
+    [SerializeField] float shootCooldown = 0.5f;
+    private float lastShootTime = 0f;
+    [SerializeField] float runSpeed = 6f;
+    [SerializeField] float jumpSpeed = 20f;
     [SerializeField] float climbSpeed = 5f;
     [SerializeField] float gravityScaleAtStart = 5f;
     [SerializeField] Vector2 deathKick = new Vector2(0f, 20f);
+    [SerializeField] GameObject bullet;
+    [SerializeField] Transform gun;
     bool isAlive = true;
     void Start()
     {
@@ -38,6 +43,18 @@ public class MovementScript : MonoBehaviour
     {
         if (!isAlive) { return; }
         moveInput = value.Get<Vector2>();
+    }
+
+    void OnFire(InputValue value)
+    {
+        if (!isAlive) { return; }
+
+        if (Time.time - lastShootTime >= shootCooldown)
+        {
+            Instantiate(bullet, gun.position, transform.rotation);
+            myAnimator.SetTrigger("Shooting");
+            lastShootTime = Time.time;
+        }
     }
 
     void ClimbLadder()
@@ -85,12 +102,13 @@ public class MovementScript : MonoBehaviour
 
     void Die()
     {
-        if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemies")))
+        if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemies", "Hazards")))
         {
             isAlive = false;
             myAnimator.SetTrigger("Dying");
             myRigidbody.velocity = new Vector2(0f, 0f);
             myRigidbody.velocity += deathKick;
+            StartCoroutine(FindObjectOfType<GameSession>().ProcessPlayerDeath());
         }
     }
 }

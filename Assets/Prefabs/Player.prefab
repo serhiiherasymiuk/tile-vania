@@ -12,13 +12,13 @@ GameObject:
   - component: {fileID: 947770926695415575}
   - component: {fileID: 2148673589031679325}
   - component: {fileID: 3929353902904728526}
-  - component: {fileID: 1499135709715255312}
   - component: {fileID: 741076881257243976}
   - component: {fileID: 4348363964531614471}
   - component: {fileID: 5845488796754353710}
+  - component: {fileID: 2226400204437049583}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,7 +35,8 @@ Transform:
   m_LocalPosition: {x: -12.8, y: 3.58, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 9091134559171618724}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &947770926695415575
@@ -98,7 +99,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1387172407
-  m_SortingLayer: 6
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 1323305621, guid: 67078bd9ee648d74681b669ecdc86062, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -138,23 +139,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &1499135709715255312
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1660460236814365956}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1cbfd7a1d399b34c9899d5319a2a08f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  runSpeed: 6
-  jumpSpeed: 4
-  climbSpeed: 5
-  gravityScaleAtStart: 5
-  deathKick: {x: 10, y: 10}
 --- !u!114 &741076881257243976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,7 +178,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1660460236814365956}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: b12657cd00a32d544b6269385437125e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -262,6 +246,57 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.029962778, y: -0.062042654}
-  m_Size: {x: 0.5999255, y: 0.8839897}
+  m_Offset: {x: -0.029962778, y: -0.05957389}
+  m_Size: {x: 0.5999255, y: 0.87905216}
   m_Direction: 0
+--- !u!114 &2226400204437049583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660460236814365956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1cbfd7a1d399b34c9899d5319a2a08f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootCooldown: 0.5
+  runSpeed: 6
+  jumpSpeed: 20
+  climbSpeed: 5
+  gravityScaleAtStart: 5
+  deathKick: {x: 0, y: 20}
+  bullet: {fileID: 0}
+  gun: {fileID: 9091134559171618724}
+--- !u!1 &7203705307094591284
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9091134559171618724}
+  m_Layer: 8
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9091134559171618724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7203705307094591284}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.236, y: -0.16, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2142817472116186751}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
